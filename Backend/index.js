@@ -17,5 +17,5 @@ app.use('/api/auth',auth)
 app.use('/api/notes',notes)
 
 app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`)
+  console.log(`iNotebook Backend listening on port http://localhost:${port}`)
 })

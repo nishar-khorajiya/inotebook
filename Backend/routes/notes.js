@@ -49,19 +49,43 @@ router.post('/addnote', fetchuser, [
 //Rout 3:update note
 router.put('/updatenote/:id', fetchuser, async (req, res) => {
     const { title, description, tag } = req.body
+    try {
+        const newNote = {}
+        if (title) { newNote.title = title }
+        if (description) { newNote.description = description }
+        if (tag) { newNote.tag = tag }
 
-    const newNote = {}
-    if (title) { newNote.title = title }
-    if (description) { newNote.description = description }
-    if (tag) { newNote.tag = tag }
+        //find a not to be updated and update it
+        let note = await Note.findById(req.params.id)
 
-    //find a not to be updated and update it
-    let note = await Note.findById(req.params.id)
+        if (!note) { return res.status(404).send("Not found") }
+        if (note.user.toString() !== req.user.id) { return res.status(401).send("Not allowed") }
 
-    if (!note) { return res.status(404).send("Not found") }
-    if (note.user.toString() !== req.user.id) { return res.status(401).send("Not allowed") }
+        note = await Note.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true })
+        res.json(note)
+    } catch (error) {
+        console.error(error.message)
+        res.status(500).send('some internal server error ')
+    }
+})
 
-    note = await Note.findByIdAndUpdate(req.params.id, { $set: newNote }, { new : true })
-    res.json(note)
+
+
+//Rout 4:Delete note
+router.delete('/deletenote/:id', fetchuser, async (req, res) => {
+    
+    try {
+        //find a not to be delted
+        let note = await Note.findById(req.params.id)
+
+        if (!note) { return res.status(404).send("Not found") }
+        if (note.user.toString() !== req.user.id) { return res.status(401).send("Not allowed") }
+
+        note = await Note.findByIdAndDelete(req.params.id)
+        res.json("note has been deleted succesfully")
+    } catch (error) {
+        console.error(error.message)
+        res.status(500).send('some internal server error ')
+    }
 })
 module.exports = router
