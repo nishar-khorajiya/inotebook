@@ -7,8 +7,7 @@ const About = () => {
     const a = useContext(noteContext)
    
     return (
-        <div>About</div>
-
+       <></>
     )
 }
 

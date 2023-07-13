@@ -21,7 +21,7 @@ const App =()=> {
         
         <Router>
           <Navbar />
-          <Alert message="it's Nishar"/>
+          {/* <Alert message="it's Nishar"/> */}
           <div className="container">
           <Routes>
             <Route exact path="/" element={<Home/>}></Route>

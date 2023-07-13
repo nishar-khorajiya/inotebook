@@ -37,12 +37,13 @@ const NoteState = (props) => {
       "user": "64a936effc0c35ce2232277f",
       "title": title,
       "description": description,
-      "tag": "personal",
+      "tag": tag,
       "date": "2023-07-11T18:33:00.254Z",
       "__v": 0
     }
     setNotes(notes.concat(note));
     console.log("note added")
+    console.log(note)
   }
 
   //edit note
@@ -69,7 +70,15 @@ const NoteState = (props) => {
   }
 
   //delete Note
-  const deleteNote = (id) => {
+  const deleteNote = async(id) => {
+    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRhOTM2ZWZmYzBjMzVjZTIyMzIyNzdmIn0sImlhdCI6MTY4ODgxNzU0Mn0.3AwNxNtzOERB9LMz86GlQy0gm9hftYe0zPmdMnK7zrc"
+      },
+      // body: JSON.stringify({ title, description, tag })
+    });
     const newNote = notes.filter((note) => { return note._id !== id })
     setNotes(newNote)
   }
