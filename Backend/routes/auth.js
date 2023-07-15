@@ -15,9 +15,10 @@ router.post('/createuser', [
 
 ], async (req, res) => {
     const errors = validationResult(req);
-
+    let success=false;
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
+        success=false;
     }
 
     // const user=User(req.body)
@@ -28,7 +29,8 @@ router.post('/createuser', [
         //checking user alerady exist 
         let user = await User.findOne({ email: req.body.email })
         if (user) {
-            return res.status(400).json({ error: "sorry user alerady exist" })
+            return res.status(400).json({success, error: "sorry user alerady exist" })
+            success=false
         }
 
         //creating salt and hash of the password
@@ -46,13 +48,13 @@ router.post('/createuser', [
                 id: user.id
             }
         }
-
+        success=true;
         const authtoken = jwt.sign(data, JWT_SECREATE)
-        res.json({ authtoken })
+        res.json({success, authtoken })
 
     } catch (error) {
         console.error(error.message)
-        res.status(500).send('some internal server error ')
+        res.status(500).send(success,'some internal server error ')
     }
 })
 
@@ -76,9 +78,11 @@ router.post('/login', [
             return res.status(400).json({ error: "please login with valid credential" })
         }
 
+        let success=false;
         const comparepassword = await bcrypt.compare(password, user.password)
         if (!comparepassword) {
-            return res.status(400).json({ error: "please login with valid credential" })
+            success=false
+            return res.status(400).json({ success,error: "please login with valid credential" })
         }
 
         const data = {
@@ -86,9 +90,9 @@ router.post('/login', [
                 id: user.id
             }
         }
-
+        success=true;
         const authtoken = jwt.sign(data, JWT_SECREATE)
-        res.json({ authtoken })
+        res.json({ success,authtoken })
 
     } catch (error) {
         console.error(error.message)

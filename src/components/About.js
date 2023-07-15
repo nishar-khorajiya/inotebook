@@ -1,13 +1,10 @@
-import { React, useContext, useEffect } from 'react'
-import { useLocation } from "react-router-dom";
-import noteContext from '../context/notes/noteContext'
+import { React } from 'react'
+// import { useLocation } from "react-router-dom";
+// import noteContext from '../context/notes/noteContext'
 
 const About = () => {
-
-    const a = useContext(noteContext)
-   
     return (
-       <></>
+       <>About me</>
     )
 }
 
