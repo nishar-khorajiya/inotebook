@@ -2,24 +2,33 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import noteContext from "../context/notes/noteContext"
 import Noteitem from './Noteitem';
 import AddNote from './AddNote';
+import { useNavigate } from 'react-router-dom';
 
 const Notes = () => {
     const context = useContext(noteContext);
-    const { notes, getNote,editNote } = context;
+    let history = useNavigate();
+    const { notes, getNote, editNote } = context;
+
     useEffect(() => {
-        getNote()
+        if (localStorage.getItem('token')) {
+            getNote()
+        }
+        else {
+            history('/about')
+        }
         // eslint-disable-next-line
     }, [])
+
     const ref = useRef(null)
-    const [note, setNote] = useState({id:" ", etitle: "", edescription: "", etag: "" })
+    const [note, setNote] = useState({ id: " ", etitle: "", edescription: "", etag: "" })
 
     const updateNote = (currentNote) => {
         ref.current.click();
-        setNote({id:currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag })
+        setNote({ id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag })
     }
 
     const handleClick = (e) => {
-        editNote(note.id,note.etitle,note.edescription,note.etag)
+        editNote(note.id, note.etitle, note.edescription, note.etag)
         console.log("Updating the note...", note)
         e.preventDefault();
     }
