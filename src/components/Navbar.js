@@ -2,7 +2,7 @@ import React from 'react'
 import {Link, useLocation, useNavigate} from 'react-router-dom'
 import { useEffect } from 'react'
 
-const Navbar = () => {
+const Navbar = (props) => {
   const location=useLocation();
   let history=useNavigate();
 
@@ -36,7 +36,10 @@ const Navbar = () => {
         <form className="d-flex">
           <Link className="btn btn-outline-primary mx-1" to='/login' role='button'>Login</Link>
           <Link className="btn btn-outline-primary mx-1" role='button' to='/signup'>Signup</Link>
-        </form>:<button className='btn btn-primary' onClick={handleLogout}>Logout</button>}
+        </form>:
+        <div style={{display:'inline-block',color:'blue'}}>
+        <label className='mx-2'>{localStorage.getItem('name')}</label>
+        <button className='btn btn-primary' onClick={handleLogout}>Logout</button></div>}
       </div>
     </div>
   </nav>

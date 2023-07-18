@@ -27,13 +27,12 @@ const App = () => {
       setAlert(null);
     }, 2000);
   }
-
   return (
     <>
       <NoteState>
 
         <Router>
-          <Navbar />
+          <Navbar  />
           <Alert alert={alert}/>
           <div className="container">
             <Routes>

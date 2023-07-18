@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom"
+import App from '../App'
 
 const Login = (props) => {
 
@@ -17,10 +18,12 @@ const Login = (props) => {
             body: JSON.stringify({email:credentials.email,password:credentials.password})
         });
         const json=await response.json();
-        console.log(json)
-
+        console.log(json.user.name)
+        
         if(json.success){
             localStorage.setItem('token',json.authtoken)
+            localStorage.setItem('name',json.user.name)
+
             history('/')
             props.showAlert("Login successfully",'success')
         }
@@ -31,7 +34,7 @@ const Login = (props) => {
     const onChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }
-
+    
     return (
         <>
             <form onSubmit={handleSubmit} >

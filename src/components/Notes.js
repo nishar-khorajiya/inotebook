@@ -14,7 +14,7 @@ const Notes = () => {
             getNote()
         }
         else {
-            history('/about')
+            history('/login')
         }
         // eslint-disable-next-line
     }, [])

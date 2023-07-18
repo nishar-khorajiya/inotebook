@@ -20,7 +20,7 @@ const Signup = (props) => {
 
     if (json.success) {
       localStorage.setItem('token', json.authtoken)
-      history('/')
+      history('/login')
       props.showAlert("created user successfully",'success')
     }
     else {
